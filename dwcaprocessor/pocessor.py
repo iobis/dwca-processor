@@ -17,6 +17,7 @@ class DwCAProcessor(object):
         logger.debug("Temp directory: " + self._temp_dir)
         self._extract()
         self._parseMeta()
+        self._indexFiles()
 
     def __str__(self):
         lines = []
@@ -25,10 +26,18 @@ class DwCAProcessor(object):
             lines.append(str(e))
         return "\n".join(lines)
 
-    def indexFiles(self):
+    def _indexFiles(self):
+        """Index the appropriate columns of the core and extension files."""
 
-        # todo: override fields
-        core = CSVReader(self._temp_dir + "/" + self._core._file, delimiter=self._core.delimiter, quoteChar=self._core._quoteChar)
+        self._core["reader"] = CSVReader(self._temp_dir + "/" + self._core._file, delimiter=self._core._delimiter, quoteChar=self._core._quoteChar, fieldNames=self._core._fields)
+        for e in self._extensions:
+            e["reader"] = CSVReader(self._temp_dir + "/" + e._file, delimiter=e._delimiter, quoteChar=e._quoteChar, fieldNames=e._fields)
+
+
+
+
+
+
 
     def _extract(self):
         """Extract the archive to the temporary directory."""
