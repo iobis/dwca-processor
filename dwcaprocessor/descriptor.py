@@ -9,34 +9,39 @@ class FileDescriptor(object):
 
     def __init__(self, xml, id="id"):
 
-        self._encoding = xml["@encoding"].encode("utf-8")
-        self._delimiter = xml["@fieldsTerminatedBy"].encode("utf-8").decode("string_escape")
+        self.encoding = xml["@encoding"].encode("utf-8")
+        self.delimiter = xml["@fieldsTerminatedBy"].encode("utf-8").decode("string_escape")
         if xml["@fieldsEnclosedBy"].encode("utf-8").decode("string_escape") != "":
-            self._quoteChar = xml["@fieldsEnclosedBy"].encode("utf-8").decode("string_escape")
+            self.quoteChar = xml["@fieldsEnclosedBy"].encode("utf-8").decode("string_escape")
         else:
-            self._quoteChar = None
-        self._headerLines = xml["@ignoreHeaderLines"].encode("utf-8")
-        self._type = self.extractTerm(xml["@rowType"]).encode("utf-8")
-        self._file = xml["files"]["location"].encode("utf-8")
-        self._idIndex = int(xml[id]["@index"].encode("utf-8"))
+            self.quoteChar = None
+        self.headerLines = xml["@ignoreHeaderLines"].encode("utf-8")
+        self.type = self.extractTerm(xml["@rowType"]).encode("utf-8")
+        self.file = xml["files"]["location"].encode("utf-8")
+        self.idIndex = int(xml[id]["@index"].encode("utf-8"))
 
-        # set fields
-        self._fields = {}
+        # create fields dict and determine name if identifier field
+        self.fields = {}
         for f in xml["field"]:
-            self._fields[self.extractTerm(f["@term"]).encode("utf-8")] = int(self.extractTerm(f["@index"]).encode("utf-8"))
+            fieldName = self.extractTerm(f["@term"]).encode("utf-8")
+            fieldIndex = int(self.extractTerm(f["@index"]).encode("utf-8"))
+            self.fields[fieldName] = fieldIndex
+            if fieldIndex == self.idIndex:
+                self.idName = fieldName
 
-        # if ID column not in terms list, add "id" field with appropriate index
-        if not self._idIndex in self._fields.values():
-            self._fields["id"] = self._idIndex
+        # if identifier column not in terms list, add an "id" field with the appropriate index
+        if not self.idIndex in self.fields.values():
+            self.fields["id"] = self.idIndex
+            self.idName = "id"
 
     def __str__(self):
         lines = []
-        lines.append("-" * len(self._file))
-        lines.append(self._file)
-        lines.append("-" * len(self._file))
-        lines.append("Type: " + self._type)
-        lines.append("ID column: " + str(self._idIndex))
-        lines.append("Columns: " + str(self._fields))
+        lines.append("=" * len(self.file))
+        lines.append(self.file)
+        lines.append("=" * len(self.file))
+        lines.append("Type: " + self.type)
+        lines.append("ID column: " + str(self.idIndex) + " (" + self.idName + ")")
+        lines.append("Columns: " + str(self.fields))
         if self.reader is not None:
             lines.append(str(self.reader))
         return "\n".join(lines)

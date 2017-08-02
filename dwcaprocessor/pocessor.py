@@ -26,18 +26,34 @@ class DwCAProcessor(object):
             lines.append(str(e))
         return "\n".join(lines)
 
+    def _whichFieldToIndex(self, descriptor):
+        """Determines which fields to index based on core/extension and row type."""
+        if (descriptor.core):
+            if (descriptor.type == "Event"):
+                return list({descriptor.idName, "eventID", "parentEventID"})
+            elif (descriptor.type == "Occurrence"):
+                return list({descriptor.idName, "occurrenceID"})
+            elif (descriptor.type == "Taxon"):
+                return list({descriptor.idName})
+        else:
+            if (descriptor.type == "Occurrence"):
+                return list({descriptor.idName, "occurrenceID"})
+            elif (descriptor.type == "MeasurementOrFact"):
+                return list({descriptor.idName})
+            elif (descriptor.type == "ExtendedMeasurementOrFact"):
+                return list({descriptor.idName, "occurrenceID"})
+
     def _indexFiles(self):
         """Index the appropriate columns of the core and extension files."""
 
-        self._core["reader"] = CSVReader(self._temp_dir + "/" + self._core._file, delimiter=self._core._delimiter, quoteChar=self._core._quoteChar, fieldNames=self._core._fields)
+        # index core
+
+        self._core["reader"] = CSVReader(self._temp_dir + "/" + self._core.file, delimiter=self._core.delimiter, quoteChar=self._core.quoteChar, fieldNames=self._core.fields, indexFields=self._whichFieldToIndex(self._core))
+
+        # index extensions
+
         for e in self._extensions:
-            e["reader"] = CSVReader(self._temp_dir + "/" + e._file, delimiter=e._delimiter, quoteChar=e._quoteChar, fieldNames=e._fields)
-
-
-
-
-
-
+            e["reader"] = CSVReader(self._temp_dir + "/" + e.file, delimiter=e.delimiter, quoteChar=e.quoteChar, fieldNames=e.fields, indexFields=self._whichFieldToIndex(e))
 
     def _extract(self):
         """Extract the archive to the temporary directory."""
@@ -50,10 +66,13 @@ class DwCAProcessor(object):
             meta = xmltodict.parse(metaFile.read())
 
             self._core = FileDescriptor(meta["archive"]["core"])
+            self._core["core"] = True
             self._extensions = []
 
             for e in meta["archive"]["extension"]:
-                self._extensions.append(FileDescriptor(e, id="coreid"))
+                descriptor = FileDescriptor(e, id="coreid")
+                descriptor["core"] = False
+                self._extensions.append(descriptor)
 
     def __del__(self):
         """Clean up the temporary directory."""
