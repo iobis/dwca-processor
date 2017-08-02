@@ -34,6 +34,14 @@ class FileDescriptor(object):
             self.fields["id"] = self.idIndex
             self.idName = "id"
 
+    def __iter__(self, coreId=None):
+        self.position = 0
+        return self
+
+    def next(self):
+
+
+
     def __str__(self):
         lines = []
         lines.append("=" * len(self.file))

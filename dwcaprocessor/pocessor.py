@@ -21,8 +21,8 @@ class DwCAProcessor(object):
 
     def __str__(self):
         lines = []
-        lines.append(str(self._core))
-        for e in self._extensions:
+        lines.append(str(self.core))
+        for e in self.extensions:
             lines.append(str(e))
         return "\n".join(lines)
 
@@ -48,11 +48,11 @@ class DwCAProcessor(object):
 
         # index core
 
-        self._core["reader"] = CSVReader(self._temp_dir + "/" + self._core.file, delimiter=self._core.delimiter, quoteChar=self._core.quoteChar, fieldNames=self._core.fields, indexFields=self._whichFieldToIndex(self._core))
+        self.core["reader"] = CSVReader(self._temp_dir + "/" + self.core.file, delimiter=self.core.delimiter, quoteChar=self.core.quoteChar, fieldNames=self.core.fields, indexFields=self._whichFieldToIndex(self.core))
 
         # index extensions
 
-        for e in self._extensions:
+        for e in self.extensions:
             e["reader"] = CSVReader(self._temp_dir + "/" + e.file, delimiter=e.delimiter, quoteChar=e.quoteChar, fieldNames=e.fields, indexFields=self._whichFieldToIndex(e))
 
     def _extract(self):
@@ -65,14 +65,14 @@ class DwCAProcessor(object):
         with open(self._temp_dir + "/meta.xml", "r") as metaFile:
             meta = xmltodict.parse(metaFile.read())
 
-            self._core = FileDescriptor(meta["archive"]["core"])
-            self._core["core"] = True
-            self._extensions = []
+            self.core = FileDescriptor(meta["archive"]["core"])
+            self.core["core"] = True
+            self.extensions = []
 
             for e in meta["archive"]["extension"]:
                 descriptor = FileDescriptor(e, id="coreid")
                 descriptor["core"] = False
-                self._extensions.append(descriptor)
+                self.extensions.append(descriptor)
 
     def __del__(self):
         """Clean up the temporary directory."""
