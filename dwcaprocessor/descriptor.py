@@ -35,12 +35,19 @@ class FileDescriptor(object):
             self.idName = "id"
 
     def __iter__(self, coreId=None):
-        self.position = 0
+        self._position = 0
         return self
 
     def next(self):
+        if self._position >= len(self.reader):
+            raise StopIteration
+        else:
+            result = self.reader.getLine(self._position)
+            self._position += 1
+            return result
 
-
+    def __len__(self):
+        return len(self.reader)
 
     def __str__(self):
         lines = []
