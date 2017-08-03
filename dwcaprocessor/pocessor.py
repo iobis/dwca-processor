@@ -74,6 +74,41 @@ class DwCAProcessor(object):
                 descriptor["core"] = False
                 self.extensions.append(descriptor)
 
+    def __iter__(self):
+        self._position = 0
+        return self
+
+    def next(self):
+        if self._position >= len(self.core.reader):
+            raise StopIteration
+        else:
+            # todo: flattening logic
+
+            record = self.core.reader.getLine(self._position)
+            print record
+
+            if self.core.type == "Event":
+                temp = self._makeStack(record, [
+                    {
+                        "descriptor": self.core,
+                        "fk": "eventID",
+                        "pk": "parentEventID",
+                        "recursive": True
+                    }
+                ])
+
+            self._position += 1
+            return record
+
+    def _makeStack(self, record, steps):
+        stack = []
+        for step in steps:
+            parent = step["descriptor"].reader.getLines(step["fk"], record[step["pk"]])
+
+            print "Parent: " + str(parent)
+
+
+
     def __del__(self):
         """Clean up the temporary directory."""
         if os.path.exists(self._temp_dir):
