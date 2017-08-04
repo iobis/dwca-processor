@@ -6,6 +6,8 @@ import os
 import xmltodict
 from descriptor import FileDescriptor
 from csvreader import CSVReader
+import json
+import copy
 
 logger = logging.getLogger(__name__)
 
@@ -85,10 +87,11 @@ class DwCAProcessor(object):
             # todo: flattening logic
 
             record = self.core.reader.getLine(self._position)
-            print record
 
+            # lookup parent records by following the specified steps
             if self.core.type == "Event":
-                temp = self._makeStack(record, [
+                # lookup parent events in the event table recursively
+                stack = self._makeStack(record, [
                     {
                         "descriptor": self.core,
                         "fk": "eventID",
@@ -96,18 +99,36 @@ class DwCAProcessor(object):
                         "recursive": True
                     }
                 ])
+                print json.dumps(stack, indent=2)
+                full = self._mergeStack(stack)
+                print json.dumps(full, indent=2)
+
 
             self._position += 1
             return record
 
     def _makeStack(self, record, steps):
-        stack = []
+        stack = [copy.deepcopy(record)]
         for step in steps:
-            parent = step["descriptor"].reader.getLines(step["fk"], record[step["pk"]])
+            while True:
+                parents = step["descriptor"].reader.getLines(step["fk"], record[step["pk"]])
+                if len(parents) == 0:
+                    break
+                elif len(parents) == 1:
+                    stack.insert(0, parents[0])
+                    # make parent master record for next step or iteration
+                    record = parents[0]
+                    if not step["recursive"]:
+                        break
+                elif len(parents) > 1:
+                    raise RuntimeError("Key " + record[step["pk"]] + " corresponds to multiple parents")
+        return stack
 
-            print "Parent: " + str(parent)
-
-
+    def _mergeStack(self, stack):
+        result = {}
+        for record in stack:
+            result.update(record)
+        return result
 
     def __del__(self):
         """Clean up the temporary directory."""
