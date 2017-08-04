@@ -7,6 +7,7 @@ import xmltodict
 from descriptor import FileDescriptor
 from csvreader import CSVReader
 import json
+from util import cleanRecord
 import copy
 
 logger = logging.getLogger(__name__)
@@ -84,8 +85,6 @@ class DwCAProcessor(object):
         if self._position >= len(self.core.reader):
             raise StopIteration
         else:
-            # todo: flattening logic
-
             record = self.core.reader.getLine(self._position)
 
             # lookup parent records by following the specified steps
@@ -99,18 +98,20 @@ class DwCAProcessor(object):
                         "recursive": True
                     }
                 ])
-                print json.dumps(stack, indent=2)
+                logger.debug("Stack :" + json.dumps(stack, indent=2))
                 full = self._mergeStack(stack)
-                print json.dumps(full, indent=2)
-
 
             self._position += 1
-            return record
+            return {
+                "source": cleanRecord(record),
+                "full": full
+            }
 
     def _makeStack(self, record, steps):
         stack = [copy.deepcopy(record)]
         for step in steps:
             while True:
+                # fetch parent records
                 parents = step["descriptor"].reader.getLines(step["fk"], record[step["pk"]])
                 if len(parents) == 0:
                     break
@@ -127,7 +128,8 @@ class DwCAProcessor(object):
     def _mergeStack(self, stack):
         result = {}
         for record in stack:
-            result.update(record)
+            # merge records but discard None or empty string
+            result.update(cleanRecord(record))
         return result
 
     def __del__(self):
