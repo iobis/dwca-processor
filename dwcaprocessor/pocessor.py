@@ -72,10 +72,11 @@ class DwCAProcessor(object):
             self.core["core"] = True
             self.extensions = []
 
-            for e in meta["archive"]["extension"]:
-                descriptor = FileDescriptor(e, id="coreid")
-                descriptor["core"] = False
-                self.extensions.append(descriptor)
+            if hasattr(meta["archive"], "extension"):
+                for e in meta["archive"]["extension"]:
+                    descriptor = FileDescriptor(e, id="coreid")
+                    descriptor["core"] = False
+                    self.extensions.append(descriptor)
 
     def __iter__(self):
         self._position = 0
@@ -100,11 +101,13 @@ class DwCAProcessor(object):
                 ])
                 logger.debug("Stack :" + json.dumps(stack, indent=2))
                 full = self._mergeStack(stack)
+            else:
+                full = record
 
             self._position += 1
             return {
                 "source": cleanRecord(record),
-                "full": full
+                "full": cleanRecord(full)
             }
 
     def _makeStack(self, record, steps):
