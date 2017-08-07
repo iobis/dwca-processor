@@ -72,7 +72,12 @@ class DwCAProcessor(object):
             self.core["core"] = True
             self.extensions = []
 
-            if hasattr(meta["archive"], "extension"):
+            if "extension" in meta["archive"]:
+
+                # handle dict as well as list
+                if isinstance(meta["archive"]["extension"], dict):
+                    meta["archive"]["extension"] = [meta["archive"]["extension"]]
+
                 for e in meta["archive"]["extension"]:
                     descriptor = FileDescriptor(e, id="coreid")
                     descriptor["core"] = False

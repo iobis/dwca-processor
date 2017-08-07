@@ -1,17 +1,20 @@
-import logging
-from dwcaprocessor import DwCAProcessor
+# using source instead of installed package
+import sys
+import os
 import json
+testdir = os.path.dirname(__file__)
+srcdir = "../"
+path = os.path.abspath(os.path.join(testdir, srcdir))
+print path
+sys.path.insert(0, path)
+from dwcaprocessor import DwCAProcessor
 
-logging.basicConfig(level=logging.DEBUG)
+#archive = DwCAProcessor("data/occurrence_mof.zip")
+archive = DwCAProcessor("data/event_occurrence_emof.zip")
+print archive
 
-#archive = DwCAProcessor("data/dwca-north_sea_hypbent_com-v1.9.zip")
-#for i, line in enumerate(archive):
-#    print json.dumps(line, indent=2)
-#    if i > 100:
-#        break
-
-archive = DwCAProcessor("data/dwca-pinna_isotopos-v1.1.zip")
 for i, line in enumerate(archive):
     print json.dumps(line, indent=2)
-    if i > 100:
+    if i > 0:
         break
+
