@@ -84,10 +84,13 @@ class DwCAProcessor(object):
                     self.extensions.append(descriptor)
 
     def __iter__(self):
-        self._position = 0
+        self._position = -1
         return self
 
     def next(self):
+
+        self._position += 1
+
         if self._position >= len(self.core.reader):
             raise StopIteration
         else:
@@ -109,7 +112,6 @@ class DwCAProcessor(object):
             else:
                 full = record
 
-            self._position += 1
             return {
                 "source": cleanRecord(record),
                 "full": cleanRecord(full)
