@@ -92,14 +92,15 @@ class DwCAProcessor(object):
             # lookup parent records by following the specified steps
             if self.core.type == "Event":
                 # lookup parent events in the event table recursively
-                stack = self._makeStack(record, [
+                steps = [
                     {
                         "descriptor": self.core,
-                        "fk": "eventID",
                         "pk": "parentEventID",
+                        "fk": "eventID",
                         "recursive": True
                     }
-                ])
+                ]
+                stack = self._makeStack(record, steps)
                 logger.debug("Stack :" + json.dumps(stack, indent=2))
                 full = self._mergeStack(stack)
             else:
@@ -111,22 +112,35 @@ class DwCAProcessor(object):
 
     def extensionRecords(self, extension):
         """Extension records generator."""
-
-        # get current core record id
-
+        # get current core record
         coreRecord = self.core.reader.getLine(self._position)
-        print coreRecord
+        for record in extension.reader.getLines(extension["idName"], coreRecord[self.core["idName"]]):
 
-        for record in extension.reader.getLines(extension["idName"], coreRecord[self.core.idName]):
-            yield record
-
+            if extension.type == "MeasurementOrFact":
+                steps = [
+                    {
+                        "descriptor": self.core,
+                        "pk": extension["idName"],
+                        "fk": self.core["idName"],
+                        "recursive": False,
+                        "fields": []
+                    }
+                ]
+                stack = self._makeStack(record, steps)
+                full = self._mergeStack(stack, steps)
+            else:
+                full = record
+            yield {
+                "source": cleanRecord(record),
+                "full": cleanRecord(full)
+            }
 
     def _makeStack(self, record, steps):
         stack = [copy.deepcopy(record)]
         for step in steps:
             while True:
                 # fetch parent records
-                parents = step["descriptor"].reader.getLines(step["fk"], record[step["pk"]])
+                parents = list(step["descriptor"].reader.getLines(step["fk"], record[step["pk"]]))
                 if len(parents) == 0:
                     break
                 elif len(parents) == 1:
@@ -139,11 +153,16 @@ class DwCAProcessor(object):
                     raise RuntimeError("Key " + record[step["pk"]] + " corresponds to multiple parents")
         return stack
 
-    def _mergeStack(self, stack):
+    def _mergeStack(self, stack, steps):
         result = {}
-        for record in stack:
+        for i in range(len(stack)):
             # merge records but discard None or empty string
-            result.update(cleanRecord(record))
+            clean = cleanRecord(stack[i])
+            # only pass selected fields
+            if i < len(steps):
+                if "fields" in steps[i] and steps[i]["fields"] is not None:
+                    clean = {k: v for k, v in clean.items() if k in steps[i]["fields"]}
+            result.update(clean)
         return result
 
     def __del__(self):
