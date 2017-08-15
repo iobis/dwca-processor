@@ -6,16 +6,20 @@ from dwcaprocessor import DwCAProcessor
 
 
 archive = DwCAProcessor("data/occurrence_mof.zip")
-#print archive
-#for i, line in enumerate(archive):
-#    print json.dumps(line, indent=2)
-#    if i > 0:
-#        break
+print archive
+for line in archive:
+    print json.dumps(line, indent=2)
+    break
 
 
 
 for e in archive.extensions:
     print e.type
+
+    for line in archive.extensionIterator(e):
+        print json.dumps(line, indent=2)
+        break
+
 
 
 

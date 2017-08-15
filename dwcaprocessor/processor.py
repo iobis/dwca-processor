@@ -9,6 +9,7 @@ from csvreader import CSVReader
 import json
 from util import cleanRecord
 import copy
+from iterator import ExtensionIterator
 
 logger = logging.getLogger(__name__)
 
@@ -116,6 +117,9 @@ class DwCAProcessor(object):
                 "source": cleanRecord(record),
                 "full": cleanRecord(full)
             }
+
+    def extensionIterator(self, extension):
+        return ExtensionIterator(self, extension)
 
     def _makeStack(self, record, steps):
         stack = [copy.deepcopy(record)]
