@@ -9,7 +9,6 @@ from csvreader import CSVReader
 import json
 from util import cleanRecord
 import copy
-from iterator import ExtensionIterator
 
 logger = logging.getLogger(__name__)
 
@@ -84,19 +83,12 @@ class DwCAProcessor(object):
                     descriptor["core"] = False
                     self.extensions.append(descriptor)
 
-    def __iter__(self):
+    def coreRecords(self):
+        """Core records generator."""
         self._position = -1
-        return self
-
-    def next(self):
-
-        self._position += 1
-
-        if self._position >= len(self.core.reader):
-            raise StopIteration
-        else:
+        while self._position < len(self.core.reader):
+            self._position += 1
             record = self.core.reader.getLine(self._position)
-
             # lookup parent records by following the specified steps
             if self.core.type == "Event":
                 # lookup parent events in the event table recursively
@@ -112,14 +104,22 @@ class DwCAProcessor(object):
                 full = self._mergeStack(stack)
             else:
                 full = record
-
-            return {
+            yield {
                 "source": cleanRecord(record),
                 "full": cleanRecord(full)
             }
 
-    def extensionIterator(self, extension):
-        return ExtensionIterator(self, extension)
+    def extensionRecords(self, extension):
+        """Extension records generator."""
+
+        # get current core record id
+
+        coreRecord = self.core.reader.getLine(self._position)
+        print coreRecord
+
+        for record in extension.reader.getLines(extension["idName"], coreRecord[self.core.idName]):
+            yield record
+
 
     def _makeStack(self, record, steps):
         stack = [copy.deepcopy(record)]
