@@ -86,7 +86,8 @@ class DwCAProcessor(object):
     def coreRecords(self):
         """Core records generator."""
         self._position = -1
-        while self._position < len(self.core.reader):
+
+        while self._position < len(self.core.reader) - 1:
             self._position += 1
             record = self.core.reader.getLine(self._position)
             # lookup parent records by following the specified steps
@@ -102,7 +103,7 @@ class DwCAProcessor(object):
                 ]
                 stack = self._makeStack(record, steps)
                 logger.debug("Stack :" + json.dumps(stack, indent=2))
-                full = self._mergeStack(stack)
+                full = self._mergeStack(stack, steps)
             else:
                 full = record
             yield {
@@ -115,15 +116,19 @@ class DwCAProcessor(object):
         # get current core record
         coreRecord = self.core.reader.getLine(self._position)
         for record in extension.reader.getLines(extension["idName"], coreRecord[self.core["idName"]]):
-
-            if extension.type == "MeasurementOrFact":
+            if extension.type == "Occurrence" and self.core.type == "Event":
                 steps = [
                     {
                         "descriptor": self.core,
                         "pk": extension["idName"],
                         "fk": self.core["idName"],
-                        "recursive": False,
-                        "fields": []
+                        "recursive": False
+                    },
+                    {
+                        "descriptor": self.core,
+                        "pk": "parentEventID",
+                        "fk": "eventID",
+                        "recursive": True
                     }
                 ]
                 stack = self._makeStack(record, steps)
