@@ -6,16 +6,16 @@ from dwcaprocessor import DwCAProcessor
 
 
 archive = DwCAProcessor("data/event_occurrence_emof.zip")
-#print archive
+print archive
 
 count = 0
 for coreRecord in archive.coreRecords():
     count += 1
     if count > 20: exit()
-    print "++++++++++++++++++++ core: " + archive.core.type
+    print "+++ core: " + archive.core.type
     print json.dumps(coreRecord, indent=2)
     for e in archive.extensions:
-        print "---------- extension: " + e.type
+        print "--- extension: " + e.type
         for extensionRecord in archive.extensionRecords(e):
             print json.dumps(extensionRecord, indent=2)
 
