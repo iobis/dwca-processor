@@ -1,0 +1,532 @@
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
+         xmlns:dc="http://purl.org/dc/terms/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.1/eml.xsd"
+         packageId="http://ipt.iobis.org/obis-env/resource?id=north_sea_hypbent_com/v1.9" system="http://gbif.org" scope="system"
+         xml:lang="eng">
+
+<dataset>
+  <alternateIdentifier>http://ipt.iobis.org/obis-env/resource?r=north_sea_hypbent_com</alternateIdentifier>
+  <title xml:lang="eng">Hyperbenthic communities of the North Sea</title>
+      <creator>
+    <organizationName>Universiteit Gent; Faculteit Wetenschappen; Vakgroep Biologie Onderzoeksgroep Mariene Biologie</organizationName>
+    <electronicMailAddress>isolde.degrem@ugent.be</electronicMailAddress>
+      </creator>
+      <metadataProvider>
+    <individualName>
+        <givenName>EurOBIS</givenName>
+      <surName>Data Management Team</surName>
+    </individualName>
+    <organizationName>Flanders Marine Institute (VLIZ)</organizationName>
+    <electronicMailAddress>info@eurobis.org</electronicMailAddress>
+    <onlineUrl>http://www.eurobis.org</onlineUrl>
+      </metadataProvider>
+      <associatedParty>
+    <individualName>
+        <givenName>Ann</givenName>
+      <surName>Dewicke</surName>
+    </individualName>
+    <organizationName>Universiteit Gent</organizationName>
+    <electronicMailAddress>Ann.Dewicke@UGent.be</electronicMailAddress>
+    <role>contentProvider</role>
+      </associatedParty>
+  <pubDate>
+      2016-11-03
+  </pubDate>
+  <language>eng</language>
+  <abstract>
+    <para>The spatio-temporal distribution of the hyperbenthos communities of the North Sea as well as the regulating factors shaping these communities were studied.</para>
+  </abstract>
+      <keywordSet>
+            <keyword>Benthic communities</keyword>
+            <keyword>Hyperbenthos</keyword>
+        <keywordThesaurus>ASFA</keywordThesaurus>
+      </keywordSet>
+      <keywordSet>
+            <keyword>Occurrence</keyword>
+        <keywordThesaurus>GBIF Dataset Type Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_type.xml</keywordThesaurus>
+      </keywordSet>
+  <intellectualRights>
+    <para>This work is licensed under a <ulink url="http://creativecommons.org/licenses/by/4.0/legalcode"><citetitle>Creative Commons Attribution (CC-BY) 4.0 License</citetitle></ulink>.</para>
+  </intellectualRights>
+  <coverage>
+      <geographicCoverage>
+          <geographicDescription>Belgian Continental Shelf (BSC)</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-180</westBoundingCoordinate>
+          <eastBoundingCoordinate>180</eastBoundingCoordinate>
+          <northBoundingCoordinate>90</northBoundingCoordinate>
+          <southBoundingCoordinate>-90</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+          <geographicDescription>Frisian Front</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-180</westBoundingCoordinate>
+          <eastBoundingCoordinate>180</eastBoundingCoordinate>
+          <northBoundingCoordinate>90</northBoundingCoordinate>
+          <southBoundingCoordinate>-90</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+          <geographicDescription>Dogger Bank</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-180</westBoundingCoordinate>
+          <eastBoundingCoordinate>180</eastBoundingCoordinate>
+          <northBoundingCoordinate>90</northBoundingCoordinate>
+          <southBoundingCoordinate>-90</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+          <temporalCoverage>
+              <rangeOfDates>
+                  <beginDate>
+                    <calendarDate>1993-09-01</calendarDate>
+                  </beginDate>
+                <endDate>
+                  <calendarDate>1996-04-01</calendarDate>
+                </endDate>
+              </rangeOfDates>
+          </temporalCoverage>
+          <temporalCoverage>
+              <rangeOfDates>
+                  <beginDate>
+                    <calendarDate>1994-09-01</calendarDate>
+                  </beginDate>
+                <endDate>
+                  <calendarDate>1995-12-01</calendarDate>
+                </endDate>
+              </rangeOfDates>
+          </temporalCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:883</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>class</taxonRankName>
+                <taxonRankValue>Polychaeta</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1135</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Amphipoda</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:2</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>kingdom</taxonRankName>
+                <taxonRankValue>Animalia</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:11707</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>class</taxonRankName>
+                <taxonRankValue>Cephalopoda</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:2081</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>phylum</taxonRankName>
+                <taxonRankValue>Chaetognatha</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1080</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>subclass</taxonRankName>
+                <taxonRankValue>Copepoda</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1248</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>phylum</taxonRankName>
+                <taxonRankValue>Ctenophora</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1137</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Cumacea</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1130</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Decapoda</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1086</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>subclass</taxonRankName>
+                <taxonRankValue>Eumalacostraca</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:19494</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>subclass</taxonRankName>
+                <taxonRankValue>Hydromedusae</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1131</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Isopoda</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>Medusae</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                <taxonRankValue>Medusae</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:2824</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Mysidacea</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:153</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Opistobranchia</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:11676</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>superclass</taxonRankName>
+                <taxonRankValue>Pisces</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1302</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>class</taxonRankName>
+                <taxonRankValue>Pycnogonida</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>urn:lsid:marinespecies.org:taxname:1133</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Tanaidacea</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+  </coverage>
+  <maintenance>
+    <description>
+      <para></para>
+    </description>
+    <maintenanceUpdateFrequency>unkown</maintenanceUpdateFrequency>
+  </maintenance>
+
+      <contact>
+    <individualName>
+        <givenName>Ann</givenName>
+      <surName>Dewicke</surName>
+    </individualName>
+    <organizationName>Universiteit Gent</organizationName>
+    <electronicMailAddress>Ann.Dewicke@UGent.be</electronicMailAddress>
+      </contact>
+</dataset>
+  <additionalMetadata>
+    <metadata>
+      <gbif>
+          <dateStamp>2015-08-28T11:00:53.000+02:00</dateStamp>
+          <hierarchyLevel>dataset</hierarchyLevel>
+            <citation identifier="http://www.vliz.be/en/imis?module=dataset&amp;dasid=137">Dewicke, A; Marine Biology Section (MARBIOL) – Ugent, Belgium; (2014): Hyperbenthic communities of the North Sea</citation>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1258039496</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1258040345</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1258041432</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1258101080</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1258101790</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1258103428</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1258107736</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1258110187</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1259596204</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1259682988</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1259683701</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1259834540</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1259838548</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1259841858</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Archived file</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://mda.vliz.be/mda/directlink.php?fid=VLIZ_00000145_1259848061</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Online dataset</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://www.emodnet-biology.eu/portal/index.php?dasid=137</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Online dataset</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://www.eurobis.org/eurobissearch?dataprovider=627</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Online dataset</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://www.iobis.org/mapper/?dataset=2975</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Online dataset</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://www.vliz.be/vmdcdata/imers/?results&amp;Das[]=137</url>
+                </online>
+              </distribution>
+            </physical>
+            <physical>
+              <objectName>Metadata</objectName>
+              <characterEncoding>UTF-8</characterEncoding>
+              <dataFormat>
+                <externallyDefinedFormat>
+                  <formatName>HTML</formatName>
+                </externallyDefinedFormat>
+              </dataFormat>
+              <distribution>
+                <online>
+                  <url function="download">http://www.eurobis.org/imis.php?module=dataset&amp;dasid=137</url>
+                </online>
+              </distribution>
+            </physical>
+          <dc:replaces>http://ipt.iobis.org/obis-env/resource?id=north_sea_hypbent_com/v1.9.xml</dc:replaces>
+      </gbif>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>
