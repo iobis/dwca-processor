@@ -143,6 +143,10 @@ class DwCAProcessor(object):
     def _makeStack(self, record, steps):
         stack = [copy.deepcopy(record)]
         for step in steps:
+            # check if record has key (for example event record without parentEventID
+            if not step["pk"] in record:
+                return stack
+            # make stack
             while True:
                 # fetch parent records
                 parents = list(step["descriptor"].reader.getLines(step["fk"], record[step["pk"]]))
