@@ -20,6 +20,7 @@ class DwCAProcessor(object):
         logger.debug("Temp directory: " + self._temp_dir)
         self._extract()
         self._parseMeta()
+        self._readEML()
         self._indexFiles()
 
     def __str__(self):
@@ -51,7 +52,8 @@ class DwCAProcessor(object):
 
         # index core
 
-        self.core["reader"] = CSVReader(self._temp_dir + "/" + self.core.file, delimiter=self.core.delimiter, quoteChar=self.core.quoteChar, fieldNames=self.core.fields, indexFields=self._whichFieldToIndex(self.core))
+        iFields = self._whichFieldToIndex(self.core)
+        self.core["reader"] = CSVReader(self._temp_dir + "/" + self.core.file, delimiter=self.core.delimiter, quoteChar=self.core.quoteChar, fieldNames=self.core.fields, indexFields=iFields)
 
         # index extensions
 
@@ -173,6 +175,10 @@ class DwCAProcessor(object):
                     clean = {k: v for k, v in clean.items() if k in steps[i]["fields"]}
             result.update(clean)
         return result
+
+    def _readEML(self):
+        with open(self._temp_dir + "/eml.xml", "r") as emlFile:
+            self.eml = emlFile.read()
 
     def __del__(self):
         """Clean up the temporary directory."""

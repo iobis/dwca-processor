@@ -12,6 +12,7 @@ class TestDwCAProcessor(unittest.TestCase):
 
     def testNSBS(self):
         archive = DwCAProcessor("./data/archives/dwca-nsbs-v1.6.zip")
+        self.assertTrue(archive.eml)
         for coreRecord in archive.coreRecords():
             if coreRecord["source"]["eventID"] == "Cruise1:Station783:Grabbiotic:980_1":
                 self.assertTrue("eventDate" not in coreRecord["source"])
