@@ -4,12 +4,10 @@ import json
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from dwcaprocessor import DwCAProcessor
 
-archive = DwCAProcessor("./data/archives/dwca-nematodesportuguesecanyons-v1.2.zip")
-#archive = DwCAProcessor("./data/archives/dwca-nsbs-v1.6.zip")
+#archive = DwCAProcessor("./data/archives/dwca-north_sea_hypbent_com-v1.9.zip")
+archive = DwCAProcessor("./data/archives/dwca-macrobenthos-v12.0.zip")
 print archive
 print archive.eml
-
-sys.exit()
 
 for coreRecord in archive.coreRecords():
     print "+++ core: " + archive.core.type
