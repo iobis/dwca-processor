@@ -164,7 +164,6 @@ class DwCAProcessor(object):
                 stack = self._makeStack(record, steps)
                 full = self._mergeStack(stack, steps)
             else:
-                # todo: handle occurrence core with (e)mof extension
                 full = record
             yield {
                 "source": cleanRecord(record),
