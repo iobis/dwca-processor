@@ -152,17 +152,18 @@ class DwCAProcessor(object):
                 ]
                 stack = self._makeStack(record, steps)
                 full = self._mergeStack(stack, steps)
-            elif (extension.type == "MeasurementOrFact" or extension.type == "ExtendedMeasurementOrFact") and self.core.type == "Occurrence":
-                steps = [
-                    {
-                        "descriptor": self.core,
-                        "pk": extension["idName"],
-                        "fk": self.core["idName"],
-                        "recursive": False
-                    }
-                ]
-                stack = self._makeStack(record, steps)
-                full = self._mergeStack(stack, steps)
+            # todo: get selected fields from occurrence core
+            #elif (extension.type == "MeasurementOrFact" or extension.type == "ExtendedMeasurementOrFact") and self.core.type == "Occurrence":
+            #    steps = [
+            #        {
+            #            "descriptor": self.core,
+            #            "pk": extension["idName"],
+            #            "fk": self.core["idName"],
+            #            "recursive": False
+            #        }
+            #    ]
+            #    stack = self._makeStack(record, steps)
+            #    full = self._mergeStack(stack, steps)
             else:
                 full = record
             yield {

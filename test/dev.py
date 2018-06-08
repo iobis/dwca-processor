@@ -4,7 +4,7 @@ import json
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from dwcaprocessor import DwCAProcessor
 
-archive = DwCAProcessor("./data/archives/dwca-test_pieter-v1.1.zip")
+archive = DwCAProcessor("./data/archives/dwca-nsbp_robertson-v1.1.zip")
 print archive
 #print archive.eml
 #sys.exit()
