@@ -24,11 +24,12 @@ class FileDescriptor(object):
         self.fields = {}
         if "field" in xml:
             for f in xml["field"]:
-                fieldName = self.extractTerm(f["@term"]).encode("utf-8")
-                fieldIndex = int(self.extractTerm(f["@index"]).encode("utf-8"))
-                self.fields[fieldName] = fieldIndex
-                if fieldIndex == self.idIndex:
-                    self.idName = fieldName
+                if "@index" in f:
+                    fieldName = self.extractTerm(f["@term"]).encode("utf-8")
+                    fieldIndex = int(self.extractTerm(f["@index"]).encode("utf-8"))
+                    self.fields[fieldName] = fieldIndex
+                    if fieldIndex == self.idIndex:
+                        self.idName = fieldName
 
         # if identifier column not in terms list, add an "id" field with the appropriate index
         if not self.idIndex in self.fields.values():
