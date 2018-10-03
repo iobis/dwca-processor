@@ -4,10 +4,19 @@ import json
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from dwcaprocessor import DwCAProcessor
 
-archive = DwCAProcessor("/Users/pieter/Downloads/dwca-ibss_fish_guinea_2015-v8.0.zip")
-print archive
-#print archive.eml
-#sys.exit()
+archive = DwCAProcessor(os.path.join(os.path.dirname(__file__), "data/dev/dwca-nsbs-problems/Archive.zip"))
+#print archive
+
+for id in archive.coreIntegrity():
+    print id
+
+for extension in archive.extensions:
+    print extension.type
+    for id in archive.extensionIntegrity(extension):
+        print id
+
+sys.exit()
+
 for coreRecord in archive.coreRecords():
     print "+++ core: " + archive.core.type
     print json.dumps(coreRecord, indent=2)

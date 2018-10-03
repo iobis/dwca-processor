@@ -85,6 +85,21 @@ class DwCAProcessor(object):
                     descriptor["core"] = False
                     self.extensions.append(descriptor)
 
+    def coreIntegrity(self):
+        """Check referential integrity of core records."""
+        if self.core.type == "Event":
+            if "parentEventID" in self.core.reader._indexes:
+                for parentEventID in self.core.reader._indexes["parentEventID"]:
+                    if parentEventID and not parentEventID in self.core.reader._indexes["eventID"]:
+                        yield parentEventID
+
+    def extensionIntegrity(self, extension):
+        coreIDName = self.core.idName
+        extensionIDName = extension.idName
+        for fk in extension.reader._indexes[extensionIDName]:
+            if fk and not fk in self.core.reader._indexes[coreIDName]:
+                yield fk
+
     def coreRecords(self):
         """Core records generator."""
         self._position = -1
