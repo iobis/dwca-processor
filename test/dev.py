@@ -4,18 +4,19 @@ import json
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from dwcaprocessor import DwCAProcessor
 
-archive = DwCAProcessor(os.path.join(os.path.dirname(__file__), "data/dev/dwca-nsbs-problems/Archive.zip"))
+#f = os.path.join(os.path.dirname(__file__), "data/archives/dwca-maineinvasives-v1.0.zip")
+f = "/data/archives/5f1ca9b6ada4b7380a37bd5885f313b8.zip"
+
+archive = DwCAProcessor(f)
 #print archive
 
-for id in archive.coreIntegrity():
-    print id
-
-for extension in archive.extensions:
-    print extension.type
-    for id in archive.extensionIntegrity(extension):
-        print id
-
-sys.exit()
+#for id in archive.coreIntegrity():
+#    print id
+#for extension in archive.extensions:
+#    print extension.type
+#    for id in archive.extensionIntegrity(extension):
+#        print id
+#sys.exit()
 
 for coreRecord in archive.coreRecords():
     print "+++ core: " + archive.core.type

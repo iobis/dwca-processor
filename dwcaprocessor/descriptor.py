@@ -23,6 +23,8 @@ class FileDescriptor(object):
         # create fields dict and determine name if identifier field
         self.fields = {}
         if "field" in xml:
+            if not isinstance(xml["field"], (list,)):
+                xml["field"] = [ xml["field"] ]
             for f in xml["field"]:
                 if "@index" in f:
                     fieldName = self.extractTerm(f["@term"]).encode("utf-8")
