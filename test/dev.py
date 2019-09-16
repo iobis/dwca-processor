@@ -4,18 +4,19 @@ import json
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from dwcaprocessor import DwCAProcessor
 
-#f = os.path.join(os.path.dirname(__file__), "data/archives/dwca-maineinvasives-v1.0.zip")
-f = "/data/archives/5f1ca9b6ada4b7380a37bd5885f313b8.zip"
+#filename = "data/archives/dwca-ThorExpedition_EngraulidaeClupeidae-v1.7.zip"
+filename = "http://ipt.vliz.be/eurobis/archive.do?r=pohjedatabase&v=1.1"
 
-archive = DwCAProcessor(f)
+archive = DwCAProcessor(filename)
 #print archive
 
-#for id in archive.coreIntegrity():
-#    print id
-#for extension in archive.extensions:
-#    print extension.type
-#    for id in archive.extensionIntegrity(extension):
-#        print id
+for id in archive.coreIntegrity():
+    print id
+for extension in archive.extensions:
+    print extension.type
+    for id in archive.extensionIntegrity(extension):
+        print id
+
 #sys.exit()
 
 for coreRecord in archive.coreRecords():

@@ -9,6 +9,7 @@ from csvreader import CSVReader
 import json
 from util import cleanRecord
 import copy
+import urllib2
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,11 @@ class DwCAProcessor(object):
 
     def _extract(self):
         """Extract the archive to the temporary directory."""
+        if "://" in self._path:
+            response = urllib2.urlopen(self._path)
+            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                shutil.copyfileobj(response, tmp_file)
+                self._path = tmp_file.name
         with ZipFile(self._path, "r") as zipFile:
             zipFile.extractall(self._temp_dir)
 
