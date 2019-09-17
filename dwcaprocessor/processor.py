@@ -100,10 +100,16 @@ class DwCAProcessor(object):
                         yield parentEventID
 
     def extensionIntegrity(self, extension):
+        """Checks if all IDs in the extension are present in the core."""
         coreIDName = self.core.idName
         extensionIDName = extension.idName
         for fk in extension.reader._indexes[extensionIDName]:
             if fk and not fk in self.core.reader._indexes[coreIDName]:
+                yield fk
+
+    def customTableIntegrity(self, table_a, table_b, field_a, field_b):
+        for fk in table_a.reader._indexes[field_a]:
+            if fk and not fk in table_b.reader._indexes[field_b]:
                 yield fk
 
     def coreRecords(self):
