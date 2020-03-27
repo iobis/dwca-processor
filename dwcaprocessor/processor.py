@@ -105,7 +105,7 @@ class DwCAProcessor(object):
     def extension_integrity(self, extension):
         """Checks if all IDs in the extension are present in the core."""
         core_id_name = self.core.id_name
-        extension_id_name = extension.idName
+        extension_id_name = extension.id_name
         for fk in extension.reader._indexes[extension_id_name]:
             if fk and fk not in self.core.reader._indexes[core_id_name]:
                 yield fk
