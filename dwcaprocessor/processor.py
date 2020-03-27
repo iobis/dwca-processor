@@ -146,8 +146,8 @@ class DwCAProcessor(object):
     def extension_records(self, extension):
         """Extension records generator."""
         # get current core record
-        core_record = self.core.reader.getLine(self._position)
-        for record in extension.reader.getLines(extension["idName"], core_record[self.core["idName"]]):
+        core_record = self.core.reader.get_line(self._position)
+        for record in extension.reader.get_lines(extension["idName"], core_record[self.core["idName"]]):
             if extension.type == "Occurrence" and self.core.type == "Event":
                 steps = [
                     {
@@ -236,8 +236,8 @@ class DwCAProcessor(object):
         return result
 
     def _read_eml(self):
-        with open(self._temp_dir + "/eml.xml", "r") as emlFile:
-            self.eml = emlFile.read()
+        with open(self._temp_dir + "/eml.xml", "r") as eml_file:
+            self.eml = eml_file.read()
 
     def __del__(self):
         """Clean up the temporary directory."""
