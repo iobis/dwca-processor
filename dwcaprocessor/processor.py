@@ -147,13 +147,13 @@ class DwCAProcessor(object):
         """Extension records generator."""
         # get current core record
         core_record = self.core.reader.get_line(self._position)
-        for record in extension.reader.get_lines(extension["idName"], core_record[self.core["idName"]]):
+        for record in extension.reader.get_lines(extension["id_name"], core_record[self.core["id_name"]]):
             if extension.type == "Occurrence" and self.core.type == "Event":
                 steps = [
                     {
                         "descriptor": self.core,
-                        "pk": extension["idName"],
-                        "fk": self.core["idName"],
+                        "pk": extension["id_name"],
+                        "fk": self.core["id_name"],
                         "recursive": False
                     },
                     {
@@ -169,8 +169,8 @@ class DwCAProcessor(object):
                 steps = [
                     {
                         "descriptor": self.core,
-                        "pk": extension["idName"],
-                        "fk": self.core["idName"],
+                        "pk": extension["id_name"],
+                        "fk": self.core["id_name"],
                         "recursive": False
                     },
                     {
@@ -187,8 +187,8 @@ class DwCAProcessor(object):
             #    steps = [
             #        {
             #            "descriptor": self.core,
-            #            "pk": extension["idName"],
-            #            "fk": self.core["idName"],
+            #            "pk": extension["id_name"],
+            #            "fk": self.core["id_name"],
             #            "recursive": False
             #        }
             #    ]
