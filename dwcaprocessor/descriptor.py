@@ -1,24 +1,27 @@
 import logging
+from .util import string_escape
+
 
 logger = logging.getLogger(__name__)
 
+
 class FileDescriptor(object):
 
-    def extractTerm(self, input):
+    def extract_term(self, input):
         return input.split("/")[-1]
 
     def __init__(self, xml, id="id"):
 
-        self.encoding = xml["@encoding"].encode("utf-8")
-        self.delimiter = xml["@fieldsTerminatedBy"].encode("utf-8").decode("string_escape")
-        if xml["@fieldsEnclosedBy"].encode("utf-8").decode("string_escape") != "":
-            self.quoteChar = xml["@fieldsEnclosedBy"].encode("utf-8").decode("string_escape")
+        self.encoding = xml["@encoding"]
+        self.delimiter = string_escape(xml["@fieldsTerminatedBy"])
+        if xml["@fieldsEnclosedBy"] != "":
+                self.quote_char = string_escape(xml["@fieldsEnclosedBy"])
         else:
-            self.quoteChar = None
-        self.headerLines = xml["@ignoreHeaderLines"].encode("utf-8")
-        self.type = self.extractTerm(xml["@rowType"]).encode("utf-8")
-        self.file = xml["files"]["location"].encode("utf-8")
-        self.idIndex = int(xml[id]["@index"].encode("utf-8"))
+            self.quote_char = None
+        self.header_lines = xml["@ignoreHeaderLines"]
+        self.type = self.extract_term(xml["@rowType"])
+        self.file = xml["files"]["location"]
+        self.id_index = int(xml[id]["@index"])
 
         # create fields dict and determine name if identifier field
         self.fields = {}
@@ -27,18 +30,18 @@ class FileDescriptor(object):
                 xml["field"] = [ xml["field"] ]
             for f in xml["field"]:
                 if "@index" in f:
-                    fieldName = self.extractTerm(f["@term"]).encode("utf-8")
-                    fieldIndex = int(self.extractTerm(f["@index"]).encode("utf-8"))
-                    self.fields[fieldName] = fieldIndex
-                    if fieldIndex == self.idIndex:
-                        self.idName = fieldName
+                    field_name = self.extract_term(f["@term"])
+                    field_index = int(self.extract_term(f["@index"]))
+                    self.fields[field_name] = field_index
+                    if field_index == self.id_index:
+                        self.id_name = field_name
 
         # if identifier column not in terms list, add an "id" field with the appropriate index
-        if not self.idIndex in self.fields.values():
-            self.fields["id"] = self.idIndex
-            self.idName = "id"
+        if not self.id_index in self.fields.values():
+            self.fields["id"] = self.id_index
+            self.id_name = "id"
 
-    def __iter__(self, coreId=None):
+    def __iter__(self, core_id=None):
         self._position = 0
         return self
 
@@ -46,7 +49,7 @@ class FileDescriptor(object):
         if self._position >= len(self.reader):
             raise StopIteration
         else:
-            result = self.reader.getLine(self._position)
+            result = self.reader.get_line(self._position)
             self._position += 1
             return result
 
@@ -54,12 +57,12 @@ class FileDescriptor(object):
         return len(self.reader)
 
     def __str__(self):
-        lines = []
+        lines = list()
         lines.append("=" * len(self.file))
         lines.append(self.file)
         lines.append("=" * len(self.file))
         lines.append("Type: " + self.type)
-        lines.append("ID column: " + str(self.idIndex) + " (" + self.idName + ")")
+        lines.append("ID column: " + str(self.id_index) + " (" + self.id_name + ")")
         lines.append("Columns: " + str(self.fields))
         if self.reader is not None:
             lines.append(str(self.reader))

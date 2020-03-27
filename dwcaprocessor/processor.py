@@ -4,74 +4,77 @@ import logging
 import shutil
 import os
 import xmltodict
-from descriptor import FileDescriptor
+from .descriptor import FileDescriptor
 from csvreader import CSVReader
 import json
-from util import cleanRecord
+from .util import clean_record
 import copy
-import urllib2
+from urllib.request import urlopen
+
 
 logger = logging.getLogger(__name__)
+
 
 class DwCAProcessor(object):
 
     def __init__(self, path):
+        self._position = None
         self._path = path
         self._temp_dir = tempfile.mkdtemp()
         logger.debug("Temp directory: " + self._temp_dir)
         self._extract()
-        self._parseMeta()
-        self._readEML()
-        self._indexFiles()
+        self._parse_meta()
+        self._read_eml()
+        self._index_files()
 
     def __str__(self):
-        lines = []
+        lines = list()
         lines.append(str(self.core))
         for e in self.extensions:
             lines.append(str(e))
         return "\n".join(lines)
 
-    def _whichFieldToIndex(self, descriptor):
+    def _which_field_to_index(self, descriptor):
         """Determines which fields to index based on core/extension and row type."""
-        if (descriptor.core):
-            if (descriptor.type == "Event"):
-                return list({descriptor.idName, "eventID", "parentEventID"})
-            elif (descriptor.type == "Occurrence"):
-                return list({descriptor.idName, "occurrenceID"})
-            elif (descriptor.type == "Taxon"):
-                return list({descriptor.idName})
+        if descriptor.core:
+            if descriptor.type == "Event":
+                return list({descriptor.id_name, "eventID", "parentEventID"})
+            elif descriptor.type == "Occurrence":
+                return list({descriptor.id_name, "occurrenceID"})
+            elif descriptor.type == "Taxon":
+                return list({descriptor.id_name})
         else:
-            if (descriptor.type == "Occurrence"):
-                return list({descriptor.idName, "occurrenceID"})
-            elif (descriptor.type == "MeasurementOrFact"):
-                return list({descriptor.idName})
-            elif (descriptor.type == "ExtendedMeasurementOrFact"):
-                return list({descriptor.idName, "occurrenceID"})
+            if descriptor.type == "Occurrence":
+                return list({descriptor.id_name, "occurrenceID"})
+            elif descriptor.type == "MeasurementOrFact":
+                return list({descriptor.id_name})
+            elif descriptor.type == "ExtendedMeasurementOrFact":
+                return list({descriptor.id_name, "occurrenceID"})
 
-    def _indexFiles(self):
+    def _index_files(self):
         """Index the appropriate columns of the core and extension files."""
 
         # index core
 
-        iFields = self._whichFieldToIndex(self.core)
-        self.core["reader"] = CSVReader(self._temp_dir + "/" + self.core.file, delimiter=self.core.delimiter, quoteChar=self.core.quoteChar, fieldNames=self.core.fields, indexFields=iFields)
+        i_fields = self._which_field_to_index(self.core)
+        self.core["reader"] = CSVReader(self._temp_dir + "/" + self.core.file, delimiter=self.core.delimiter, quote_char=self.core.quote_char, field_names=self.core.fields, index_fields=i_fields)
 
         # index extensions
 
         for e in self.extensions:
-            e["reader"] = CSVReader(self._temp_dir + "/" + e.file, delimiter=e.delimiter, quoteChar=e.quoteChar, fieldNames=e.fields, indexFields=self._whichFieldToIndex(e))
+            e["reader"] = CSVReader(self._temp_dir + "/" + e.file, delimiter=e.delimiter, quote_char=e.quote_char, field_names=e.fields, index_fields=self._which_field_to_index(e))
 
     def _extract(self):
         """Extract the archive to the temporary directory."""
         if "://" in self._path:
-            response = urllib2.urlopen(self._path)
+            response = urlopen(self._path)
             with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
                 shutil.copyfileobj(response, tmp_file)
                 self._path = tmp_file.name
         with ZipFile(self._path, "r") as zipFile:
             zipFile.extractall(self._temp_dir)
 
-    def _parseMeta(self):
+    def _parse_meta(self):
         """Parse the archive descriptor XML file."""
         with open(self._temp_dir + "/meta.xml", "r") as metaFile:
             meta = xmltodict.parse(metaFile.read())
@@ -91,7 +94,7 @@ class DwCAProcessor(object):
                     descriptor["core"] = False
                     self.extensions.append(descriptor)
 
-    def coreIntegrity(self):
+    def core_integrity(self):
         """Check referential integrity of core records."""
         if self.core.type == "Event":
             if "parentEventID" in self.core.reader._indexes:
@@ -99,26 +102,26 @@ class DwCAProcessor(object):
                     if parentEventID and not parentEventID in self.core.reader._indexes["eventID"]:
                         yield parentEventID
 
-    def extensionIntegrity(self, extension):
+    def extension_integrity(self, extension):
         """Checks if all IDs in the extension are present in the core."""
-        coreIDName = self.core.idName
-        extensionIDName = extension.idName
-        for fk in extension.reader._indexes[extensionIDName]:
-            if fk and not fk in self.core.reader._indexes[coreIDName]:
+        core_id_name = self.core.id_name
+        extension_id_name = extension.idName
+        for fk in extension.reader._indexes[extension_id_name]:
+            if fk and fk not in self.core.reader._indexes[core_id_name]:
                 yield fk
 
-    def customTableIntegrity(self, table_a, table_b, field_a, field_b):
+    def custom_table_integrity(self, table_a, table_b, field_a, field_b):
         for fk in table_a.reader._indexes[field_a]:
-            if fk and not fk in table_b.reader._indexes[field_b]:
+            if fk and fk not in table_b.reader._indexes[field_b]:
                 yield fk
 
-    def coreRecords(self):
+    def core_records(self):
         """Core records generator."""
         self._position = -1
 
         while self._position < len(self.core.reader) - 1:
             self._position += 1
-            record = self.core.reader.getLine(self._position)
+            record = self.core.reader.get_line(self._position)
             # lookup parent records by following the specified steps
             if self.core.type == "Event":
                 # lookup parent events in the event table recursively
@@ -130,21 +133,21 @@ class DwCAProcessor(object):
                         "recursive": True
                     }
                 ]
-                stack = self._makeStack(record, steps)
+                stack = self._make_stack(record, steps)
                 logger.debug("Stack :" + json.dumps(stack, indent=2))
-                full = self._mergeStack(stack, steps)
+                full = self._merge_stack(stack, steps)
             else:
                 full = record
             yield {
-                "source": cleanRecord(record),
-                "full": cleanRecord(full)
+                "source": clean_record(record),
+                "full": clean_record(full)
             }
 
-    def extensionRecords(self, extension):
+    def extension_records(self, extension):
         """Extension records generator."""
         # get current core record
-        coreRecord = self.core.reader.getLine(self._position)
-        for record in extension.reader.getLines(extension["idName"], coreRecord[self.core["idName"]]):
+        core_record = self.core.reader.getLine(self._position)
+        for record in extension.reader.getLines(extension["idName"], core_record[self.core["idName"]]):
             if extension.type == "Occurrence" and self.core.type == "Event":
                 steps = [
                     {
@@ -160,8 +163,8 @@ class DwCAProcessor(object):
                         "recursive": True
                     }
                 ]
-                stack = self._makeStack(record, steps)
-                full = self._mergeStack(stack, steps)
+                stack = self._make_stack(record, steps)
+                full = self._merge_stack(stack, steps)
             elif (extension.type == "MeasurementOrFact" or extension.type == "ExtendedMeasurementOrFact") and self.core.type == "Event":
                 steps = [
                     {
@@ -177,8 +180,8 @@ class DwCAProcessor(object):
                         "recursive": True
                     }
                 ]
-                stack = self._makeStack(record, steps)
-                full = self._mergeStack(stack, steps)
+                stack = self._make_stack(record, steps)
+                full = self._merge_stack(stack, steps)
             # todo: get selected fields from occurrence core
             #elif (extension.type == "MeasurementOrFact" or extension.type == "ExtendedMeasurementOrFact") and self.core.type == "Occurrence":
             #    steps = [
@@ -194,11 +197,11 @@ class DwCAProcessor(object):
             else:
                 full = record
             yield {
-                "source": cleanRecord(record),
-                "full": cleanRecord(full)
+                "source": clean_record(record),
+                "full": clean_record(full)
             }
 
-    def _makeStack(self, record, steps):
+    def _make_stack(self, record, steps):
         stack = [copy.deepcopy(record)]
         for step in steps:
             # check if record has key (for example event record without parentEventID
@@ -207,7 +210,7 @@ class DwCAProcessor(object):
             # make stack
             while True:
                 # fetch parent records
-                parents = list(step["descriptor"].reader.getLines(step["fk"], record[step["pk"]]))
+                parents = list(step["descriptor"].reader.get_lines(step["fk"], record[step["pk"]]))
                 if len(parents) == 0:
                     break
                 elif len(parents) == 1:
@@ -220,11 +223,11 @@ class DwCAProcessor(object):
                     raise RuntimeError("Key " + record[step["pk"]] + " corresponds to multiple parents")
         return stack
 
-    def _mergeStack(self, stack, steps):
+    def _merge_stack(self, stack, steps):
         result = {}
         for i in range(len(stack)):
             # merge records but discard None or empty string
-            clean = cleanRecord(stack[i])
+            clean = clean_record(stack[i])
             # only pass selected fields
             if i < len(steps):
                 if "fields" in steps[i] and steps[i]["fields"] is not None:
@@ -232,7 +235,7 @@ class DwCAProcessor(object):
             result.update(clean)
         return result
 
-    def _readEML(self):
+    def _read_eml(self):
         with open(self._temp_dir + "/eml.xml", "r") as emlFile:
             self.eml = emlFile.read()
 

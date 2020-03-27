@@ -1,1 +1,1 @@
-from processor import DwCAProcessor
+from .processor import DwCAProcessor
