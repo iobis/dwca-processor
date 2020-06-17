@@ -4,7 +4,7 @@ import json
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 from dwcaprocessor import DwCAProcessor
 
-filename = "http://ipt.vliz.be/eurobis/archive.do?r=midex_chrome_jn&v=1.1"
+filename = "data/dev/dwca-smhi_epibenthos_reg-v1.1-subset.zip"
 archive = DwCAProcessor(filename)
 print(archive)
 

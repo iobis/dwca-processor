@@ -139,6 +139,7 @@ class DwCAProcessor(object):
             else:
                 full = record
             yield {
+                "pk": record[self.core.id_name],
                 "source": clean_record(record),
                 "full": clean_record(full)
             }
@@ -197,6 +198,7 @@ class DwCAProcessor(object):
             else:
                 full = record
             yield {
+                "fk": record[extension.id_name],
                 "source": clean_record(record),
                 "full": clean_record(full)
             }
