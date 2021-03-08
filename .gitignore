@@ -1,5 +1,6 @@
-**/.idea
-**/.DS_Store
+dev.py
+.idea
+.DS_Store
 **/build
 **/*.egg-info
 **/dist
