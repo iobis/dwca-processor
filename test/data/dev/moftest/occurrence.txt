@@ -1,9 +1,0 @@
-eventID	occurrenceID	scientificName	eventTime
-sample_1	occurrence_1	Abra alba	13:00
-sample_1	occurrence_2	Lanice conchilega	13:00
-sample_2	occurrence_3	Tellina fabula	14:00
-sample_2	occurrence_4	Nephtys hombergii	14:00
-sample_3	occurrence_5	Abra alba	15:00
-sample_3	occurrence_6	Lanice conchilega	15:00
-sample_4	occurrence_7	Tellina fabula	16:00
-sample_4	occurrence_8	Nephtys hombergii	16:00
